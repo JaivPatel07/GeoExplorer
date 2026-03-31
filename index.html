@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="GeoExplorer is an interactive world-map app for exploring countries with live geographic insights."
+  />
+  <meta property="og:title" content="GeoExplorer | Interactive World Map" />
+  <meta
+    property="og:description"
+    content="Explore countries with live data in one interactive map interface."
+  />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>GeoExplorer | Interactive World Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="top-nav">
+    <div class="brand">GeoExplorer</div>
+    <nav class="nav-actions" aria-label="Main">
+      <button id="navExplore" class="nav-btn active" type="button">Explore</button>
+      <button id="navQuiz" class="nav-btn" type="button">Quiz</button>
+    </nav>
+  </header>
+
+  <main class="app-shell">
+    <section class="globe-section">
+      <div id="globe-stage"></div>
+    </section>
+
+    <aside class="panel" aria-live="polite">
+      <div class="panel-head">
+        <h2>Country Explorer</h2>
+        <p>Click a country on the map or search below.</p>
+      </div>
+
+      <div class="alert-box" role="note" aria-label="Accuracy notice">
+        This information is not 100% accurate and may change over time. Always verify with official sources.
+      </div>
+
+      <div class="controls">
+        <label for="searchCountry">Search country</label>
+        <div class="row">
+          <input id="searchCountry" type="text" placeholder="e.g. Japan" />
+          <button id="searchBtn" type="button">Find</button>
+        </div>
+      </div>
+
+      <section id="countryCard" class="card">
+        <h3>Pick a country</h3>
+        <p class="muted">Name, capital, population, languages and AI insight appear here.</p>
+      </section>
+
+      <section id="quizCard" class="card hidden">
+        <h3>Country Finder Game</h3>
+        <p class="muted">2 players, random countries, race against time!</p>
+
+        <div class="game-config">
+          <label style="font-size: 0.82rem; margin-bottom: 0.3rem;">Player Setup</label>
+          <div class="row">
+            <input id="playerOneName" type="text" placeholder="Player 1 name" />
+            <input id="playerTwoName" type="text" placeholder="Player 2 name" />
+          </div>
+          <label style="font-size: 0.82rem; margin: 0.4rem 0 0.3rem;">Game Settings</label>
+          <div class="row">
+            <input id="roundTimeInput" type="number" min="5" max="45" value="12" placeholder="Seconds per turn" />
+            <input id="maxRoundsInput" type="number" min="2" max="30" value="10" placeholder="Total rounds" />
+          </div>
+          <div class="row">
+            <button id="startGameBtn" type="button">Start Game</button>
+            <button id="stopGameBtn" type="button">Stop Game</button>
+          </div>
+        </div>
+
+        <div id="gameBoard" class="game-board hidden">
+          <div class="stats-container">
+            <div class="stat-pill stat-turn">
+              <span class="stat-label">Current Turn</span>
+              <span id="activePlayerLabel" class="stat-emphasis">—</span>
+            </div>
+            <div class="stat-pill stat-target">
+              <span class="stat-label">Target Country</span>
+              <span id="targetCountryLabel" class="stat-emphasis">—</span>
+            </div>
+            <div class="stat-pill stat-timer">
+              <span class="stat-label">Time Remaining</span>
+              <span id="timerLabel" class="stat-emphasis">0s</span>
+            </div>
+            <div class="stat-pill stat-round">
+              <span class="stat-label">Round</span>
+              <span id="roundLabel" class="stat-emphasis">—</span>
+            </div>
+          </div>
+
+          <div class="scores-section">
+            <div class="score-card player-one">
+              <div class="score-badge">1</div>
+              <div class="score-info">
+                <span class="score-name" id="scorePlayerOneName">Player 1</span>
+                <div class="score-points" id="scorePlayerOne">0</div>
+              </div>
+            </div>
+            <div class="score-card player-two">
+              <div class="score-badge">2</div>
+              <div class="score-info">
+                <span class="score-name" id="scorePlayerTwoName">Player 2</span>
+                <div class="score-points" id="scorePlayerTwo">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p id="gameMessage" class="game-hint">Click the target country on the map to score points!</p>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="app-footer">
+    <p>Built for real-world geography exploration and country learning.</p>
+  </footer>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
