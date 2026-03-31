@@ -6,7 +6,7 @@ GeoExplorer is an interactive 2D world map application that allows users to expl
 
 ## Live Demo
 
-https://your-deployed-link.com
+geo-explorer-coral.vercel.app
 
 ---
 
