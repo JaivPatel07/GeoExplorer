@@ -77,6 +77,7 @@ const gameState = {
   timerLeft: 12,
   targetFeature: null,
   timerId: null,
+  correctAnswerFound: false,
 };
 
 const formatNumber = (value) => {
@@ -115,6 +116,13 @@ const hoverStyle = {
   weight: 2,
   fillColor: "#47b8b0",
   fillOpacity: 0.76,
+};
+
+const correctAnswerStyle = {
+  color: "#15803d",
+  weight: 3,
+  fillColor: "#22c55e",
+  fillOpacity: 0.92,
 };
 
 const resetStyles = () => {
@@ -237,8 +245,9 @@ const updateGameBoard = () => {
   scorePlayerTwoEl.textContent = String(gameState.scores[1]);
 };
 
-const setGameMessage = (message) => {
+const setGameMessage = (message, isCorrect = false) => {
   gameMessageEl.textContent = message;
+  gameMessageEl.classList.toggle('correct-message', isCorrect);
 };
 
 const endGame = () => {
@@ -289,6 +298,9 @@ const startTurnTimer = () => {
 
 const startRound = () => {
   gameState.targetFeature = pickRandomTarget();
+  gameState.correctAnswerFound = false;
+  gameMessageEl.classList.remove('correct-message');
+  resetStyles();
   if (!gameState.targetFeature) {
     setGameMessage("Could not load countries for game. Please refresh and try again.");
     endGame();
@@ -325,8 +337,9 @@ const handleGameCountryClick = (feature) => {
 
   if (clicked === target) {
     gameState.scores[gameState.currentPlayer] += 1;
+    gameState.correctAnswerFound = true;
     clearGameTimer();
-    setGameMessage(`Correct! ${gameState.players[gameState.currentPlayer]} earned 1 point.`);
+    setGameMessage(`Correct! ${gameState.players[gameState.currentPlayer]} earned 1 point.`, true);
     updateGameBoard();
     setTimeout(() => {
       nextTurn();
@@ -542,6 +555,16 @@ fetch("https://raw.githubusercontent.com/datasets/geo-countries/master/data/coun
           click: () => {
             selectFeature(feature, layer);
             loadCountryDetails(feature);
+            
+            // Check if correct answer in quiz mode
+            if (gameState.active && activeTab === "quiz") {
+              const clicked = getFeatureName(feature).toLowerCase();
+              const target = getFeatureName(gameState.targetFeature).toLowerCase();
+              if (clicked === target && !gameState.correctAnswerFound) {
+                layer.setStyle(correctAnswerStyle);
+              }
+            }
+            
             handleGameCountryClick(feature);
             focusFeature(feature, layer);
           },
